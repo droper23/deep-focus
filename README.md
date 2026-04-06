@@ -1,5 +1,7 @@
 # Focus Study
 
+**Repository:** [github.com/droper23/focus-study](https://github.com/droper23/focus-study)
+
 Deep-focus study app: **run in any browser** (static site) or **install as a desktop app** built on **Chromium** via [Electron](https://www.electronjs.org/).
 
 ## Web (browser)
