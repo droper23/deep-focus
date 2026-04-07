@@ -88,7 +88,7 @@ function scheduleSaveSettings() {
   clearTimeout(settingsSaveTimer);
   settingsSaveTimer = setTimeout(() => {
     saveSettingsUi();
-  }, 350);
+  }, 50);
 }
 
 function schedulePopulateUrlDatalist() {
@@ -169,6 +169,9 @@ function init() {
   els.strictDomains = $('#strictDomains');
   els.completedTasksSection = $('#completedTasksSection');
   els.completedTaskList = $('#completedTaskList');
+  els.confirmResetModal = $('#confirmResetModal');
+  els.btnConfirmReset = $('#btnConfirmReset');
+  els.btnCancelReset = $('#btnCancelReset');
 
   els.useElectron =
     (typeof window.electronAPI !== 'undefined' && window.electronAPI.isElectron === true) || navigator.userAgent.includes('FocusStudy-Electron');
@@ -212,6 +215,9 @@ function init() {
   $('#exitBackdrop').addEventListener('click', closeExitModal);
   $('#btnCancelExit').addEventListener('click', closeExitModal);
   $('#btnCancelExit2').addEventListener('click', closeExitModal);
+  if ($('#btnResetStats')) $('#btnResetStats').addEventListener('click', resetStats);
+  if (els.btnConfirmReset) els.btnConfirmReset.addEventListener('click', onConfirmReset);
+  if (els.btnCancelReset) els.btnCancelReset.addEventListener('click', onCancelReset);
   $('#btnConfirmExit').addEventListener('click', confirmPasswordExit);
 
   // Pressing Enter in the exit password input confirms exit
@@ -365,6 +371,20 @@ window.onStateChanged = (next, partial) => {
     renderHistory();
     updateStatsSummary();
     updateSessionClock();
+  }
+  if (
+    Object.prototype.hasOwnProperty.call(partial, 'accentColor') ||
+    Object.prototype.hasOwnProperty.call(partial, 'themeMode') ||
+    Object.prototype.hasOwnProperty.call(partial, 'uiScale')
+  ) {
+    applyUiSettings();
+    // Update inputs if visible
+    if (els.accentColor && partial.accentColor) els.accentColor.value = partial.accentColor;
+    if (els.themeMode && partial.themeMode) els.themeMode.value = partial.themeMode;
+    if (els.uiScale && partial.uiScale) {
+      els.uiScale.value = partial.uiScale;
+      if (els.uiScaleValue) els.uiScaleValue.textContent = `${partial.uiScale}%`;
+    }
   }
 };
 
@@ -1087,6 +1107,34 @@ function updateGoalUi() {
   const pct = goalMin > 0 ? Math.min(1, sessionFocusMs / (goalMin * 60000)) : 0;
   if (els.goalFill) els.goalFill.style.width = `${Math.round(pct * 100)}%`;
   if (els.goalMeta) els.goalMeta.textContent = `${doneMin} / ${goalMin} min`;
+}
+
+function resetStats() {
+  if (els.confirmResetModal) {
+    els.confirmResetModal.classList.remove('hidden');
+  }
+}
+
+function onConfirmReset() {
+  persist({
+    stats: {
+      totalFocusMs: 0,
+      totalBlocked: 0,
+      sessions: []
+    }
+  });
+  renderHistory();
+  updateStatsSummary();
+  updateSessionClock();
+  if (els.confirmResetModal) {
+    els.confirmResetModal.classList.add('hidden');
+  }
+}
+
+function onCancelReset() {
+  if (els.confirmResetModal) {
+    els.confirmResetModal.classList.add('hidden');
+  }
 }
 
 function renderHistory() {

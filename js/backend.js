@@ -202,7 +202,7 @@ async function pushState(payload) {
 function debouncePushState(payload) {
   if (!enabled()) return;
   clearTimeout(syncTimer);
-  syncTimer = setTimeout(() => pushState(payload), 800);
+  syncTimer = setTimeout(() => pushState(payload), 100);
 }
 
 async function signInOrUp(email, password) {

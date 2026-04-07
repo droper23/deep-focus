@@ -1,6 +1,6 @@
 import { getDefaultBlocked, parseHostList, normalizeHostLine } from './security.js';
 
-const KEY = 'deep-focus-v2';
+const KEY = 'deep-focus-v3';
 
 function load() {
   try {
@@ -47,7 +47,7 @@ function defaultState() {
     themeMode: 'dark',
     reduceMotion: false,
     compactMode: false,
-    autoStartSession: true,
+    autoStartSession: false,
     pomodoro: { work: 25, short: 5, long: 15 },
     tasks: [],
     stats: {

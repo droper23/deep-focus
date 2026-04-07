@@ -110,6 +110,17 @@
     </div>
   </div>
 
+  <div id="confirmResetModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <h3 class="modal-title">Reset statistics</h3>
+      <p class="muted small">Are you sure you want to reset all focus statistics? This cannot be undone.</p>
+      <div class="modal-actions">
+        <button type="button" id="btnConfirmReset" class="btn btn-danger">Yes, reset</button>
+        <button type="button" id="btnCancelReset" class="btn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
       <section id="panel-timer" class="panel" hidden>
         <h2 class="panel-title">Timer</h2>
         <div class="pomodoro-row">
@@ -223,6 +234,12 @@
           <div class="field-row">
             <button type="button" id="authLogout" class="btn">Sign out</button>
             <span id="authStatus" class="small muted"></span>
+          </div>
+        </fieldset>
+        <fieldset class="fieldset">
+          <legend>Data Management</legend>
+          <div class="field-row">
+            <button type="button" id="btnResetStats" class="btn btn-danger">Reset focus statistics</button>
           </div>
         </fieldset>
         <p class="small muted">Settings auto-save.</p>
