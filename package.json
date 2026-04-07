@@ -7,7 +7,7 @@
   "scripts": {
     "start": "electron .",
     "web": "python3 -m http.server 8080",
-    "dist": "electron-builder"
+    "dist": "electron-builder --publish=never"
   },
   "author": "",
   "license": "MIT",
