@@ -297,10 +297,12 @@ async function initAuthUi() {
   }
   if (logoutBtn) {
     logoutBtn.addEventListener('click', async () => {
+      const local = getState();
       try {
         await signOut(auth);
         if (emailInput) emailInput.value = '';
         if (passInput) passInput.value = '';
+        if (local) persist({ tasks: local.tasks || [], stats: local.stats || emptyStats() });
         setAuthed(false);
         setStatus('Signed out.');
       } catch (e) {
